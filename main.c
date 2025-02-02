@@ -5,13 +5,14 @@
 #include "ws2812.pio.h"
 #include "hardware/timer.h"
 
-#define NUM_LEDS 25
-#define WS2812_PIN 7
-#define TEMPO_LED 400
-#define BOTAO_PIN_A 5
-#define BOTAO_PIN_B 6
-#define LED_PIN_R 13
-static int frame = 0;
+#define NUM_LEDS 25 // Quantidade de leds
+#define WS2812_PIN 7 // Pino de dados do ws2812
+#define TEMPO_LED 400 // Tempo em ms para acender e apagar o led
+#define BOTAO_PIN_A 5 // Pino do botão A
+#define BOTAO_PIN_B 6 // Pino do botão B
+#define LED_PIN_R 13 // Pino do led de status (Vermelho)
+
+static int frame = 0; // Armazena o frame atual
 
 uint32_t last_time = 0; // Armazena o tempo do último evento (em microssegundos)
 
@@ -42,30 +43,30 @@ bool led_animacoes[10][NUM_LEDS] = {
 
 };
 
-// Função para ativar um LED específico
+// Função para ativar um LED com cor específica
 static inline void ligar_led(uint32_t pixel_grb)
 {
-    pio_sm_put_blocking(pio0, 0, pixel_grb << 8u);
+    pio_sm_put_blocking(pio0, 0, pixel_grb << 8u); // Faz o envio do valor do LED para o PIO
 }
 
 // Função para conversão de RGB -> GRB
 static inline uint32_t rgb_para_grb(uint8_t r, uint8_t g, uint8_t b)
 {
-    return ((uint32_t)(r) << 8) | ((uint32_t)(g) << 16) | (uint32_t)(b);
+    return ((uint32_t)(r) << 8) | ((uint32_t)(g) << 16) | (uint32_t)(b); // Conversão de RGB -> GRB
 }
 
 // Função acende os leds de acordo o frame passado
 void config_cor_led(uint8_t r, uint8_t g, uint8_t b)
 {
     // Conversão das intensidades de cor para um valor uint32_t
-    uint32_t color = rgb_para_grb(r, g, b); // RGB -> GRB
-    for (int i = 0; i < NUM_LEDS; i++) // Ireação sobre todos os leds
+    uint32_t color = rgb_para_grb(r, g, b); // Conversão de RGB -> GRB
+    for (int i = 0; i < NUM_LEDS; i++) // Iteração sobre todos os leds
     {
-        ligar_led(led_animacoes[frame][i]?color:0);
+        ligar_led(led_animacoes[frame][i]?color:0); // Acende o LED se o valor for 1, caso contrário apaga
     }
 }
 
-// Função de interrupção com debouncing
+// Função de interrupção dos botões com debouncing
 void gpio_irq_handler(uint gpio, uint32_t events)
 {
     // Obtém o tempo atual em microssegundos
@@ -76,7 +77,7 @@ void gpio_irq_handler(uint gpio, uint32_t events)
     {   
         last_time = current_time; // Atualiza o tempo do último evento
         // printf("Botão %d pressionado\n", gpio);
-        //Verifica qual botão foi pressionado
+        //Verifica qual botão foi pressionado ao trocar o frame
         if (gpio == BOTAO_PIN_A){
             frame = frame == 9?0 : frame + 1; // Passa para o próximo frame se o botão A for pressionado ou reinicia
         }
@@ -100,7 +101,7 @@ void Configurar_Pins(uint pin, bool saida, bool pullup){
 
 int main()
 {
-    stdio_init_all();
+    stdio_init_all(); // Inicia a serial
 
 // Inicialização do PIO e o ws2812
     PIO pio = pio0;
@@ -120,10 +121,10 @@ int main()
 
     while (1)
     {
-        gpio_put(LED_PIN_R, 1);
-        sleep_ms(TEMPO_LED);
-        gpio_put(LED_PIN_R, 0);
-        sleep_ms(TEMPO_LED);
+        gpio_put(LED_PIN_R, 1); // Acende o LED de status
+        sleep_ms(TEMPO_LED); // Aguarda tempo definido em TEMPO_LED 
+        gpio_put(LED_PIN_R, 0); // Apaga o LED 
+        sleep_ms(TEMPO_LED); // Aguarda noavmente 
     }
     return 0;
 }
