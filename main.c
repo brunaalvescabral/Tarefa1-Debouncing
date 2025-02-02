@@ -7,7 +7,7 @@
 
 #define NUM_LEDS 25 // Quantidade de leds
 #define WS2812_PIN 7 // Pino de dados do ws2812
-#define TEMPO_LED 400 // Tempo em ms para acender e apagar o led
+#define TEMPO_LED 100 // Tempo em ms para acender e apagar o led
 #define BOTAO_PIN_A 5 // Pino do botão A
 #define BOTAO_PIN_B 6 // Pino do botão B
 #define LED_PIN_R 13 // Pino do led de status (Vermelho)
