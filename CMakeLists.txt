@@ -39,6 +39,7 @@ add_executable(Tarefa1-Debouncing main.c )
 
 pico_set_program_name(Tarefa1-Debouncing "Tarefa1-Debouncing")
 pico_set_program_version(Tarefa1-Debouncing "0.1")
+pico_generate_pio_header(Tarefa1-Debouncing ${CMAKE_CURRENT_LIST_DIR}/ws2812.pio)
 
 # Modify the below lines to enable/disable output over UART/USB
 pico_enable_stdio_uart(Tarefa1-Debouncing 0)
@@ -46,7 +47,7 @@ pico_enable_stdio_usb(Tarefa1-Debouncing 0)
 
 # Add the standard library to the build
 target_link_libraries(Tarefa1-Debouncing
-        pico_stdlib)
+        pico_stdlib hardware_pio)
 
 # Add the standard include files to the build
 target_include_directories(Tarefa1-Debouncing PRIVATE
