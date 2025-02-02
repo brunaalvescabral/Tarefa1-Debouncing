@@ -47,7 +47,8 @@ pico_enable_stdio_usb(Tarefa1-Debouncing 0)
 
 # Add the standard library to the build
 target_link_libraries(Tarefa1-Debouncing
-        pico_stdlib hardware_pio)
+        pico_stdlib 
+        )
 
 # Add the standard include files to the build
 target_include_directories(Tarefa1-Debouncing PRIVATE
@@ -56,7 +57,9 @@ target_include_directories(Tarefa1-Debouncing PRIVATE
 
 # Add any user requested libraries
 target_link_libraries(Tarefa1-Debouncing 
-        
+        hardware_clocks 
+        hardware_timer
+        hardware_pio
         )
 
 pico_add_extra_outputs(Tarefa1-Debouncing)
