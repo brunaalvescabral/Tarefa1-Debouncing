@@ -68,7 +68,7 @@ Este projeto utiliza o microcontrolador Raspberry Pi Pico para controlar LEDs WS
 
 ## Demonstração
 
-Confira a demonstração do projeto em vídeo: [Demonstração do Projeto]()
+Confira a demonstração do projeto em vídeo: [Demonstração do Projeto](https://youtube.com/shorts/ti1Q9QjH6d0)
 
 ## Licença
 
